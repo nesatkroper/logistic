@@ -4,12 +4,19 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\Logistic\LogisticListController;
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\Logistic\TransferController;
 
 Route::get('/', [DashboardController::class, 'index'])->name('dash');
 
+
+// LOGISTICS
 Route::get('/logistic', [LogisticListController::class, 'index'])->name('logistic');
 Route::post('/logistic/storeLogistic', [LogisticListController::class, 'storeLogistic'])->name('logistic.storeLogistic');
 
+Route::get('/transfer', [TransferController::class, 'index'])->name('transfer');
+
+
+// CATEGORY
 Route::get('/cate', [CategoryController::class, 'index'])->name('cate');
 
 Route::post('/cate/storeProvince', [CategoryController::class, 'storeProvince'])->name('cate.storeProvince');

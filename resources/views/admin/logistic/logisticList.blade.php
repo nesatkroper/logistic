@@ -1,6 +1,6 @@
 <x-layout>
     <div class="container-fluid px-4">
-        <h3 class="mt-4">Category</h3>
+        <h3 class="mt-4">Logistic Item Process</h3>
         <!-- Province -->
         <div class="app-content">
             <button
@@ -10,13 +10,12 @@
                 data-bs-target="#staticBackdropAdd"
                 data-bs-whatever="@mdo"
             >
-                Add Category
+                Add Item
             </button>
             <div class="container-fluid">
                 <div class="row">
                     <div class="card mb-2 shadow rounded-4">
-                        <h4 class="mt-2 mb-0">Provinces</h4>
-                        <div class="card-body rounded-4 pt-0">
+                        <div class="card-body rounded-4 pt-2">
                             @if(session('success'))
                             <div class="alert alert-success">
                                 {{ session("success") }}
@@ -27,7 +26,7 @@
                             </div>
                             @endif
                             <table
-                                class="table table-striped table-bordered shadow mt-3"
+                                class="table table-striped table-bordered shadow mt-3 table-responsive"
                                 id="logistic"
                             >
                                 <thead>
@@ -44,6 +43,7 @@
                                         <th>From</th>
                                         <th>To</th>
                                         <th>Process</th>
+                                        <th>Date</th>
                                         <th>Status</th>
                                         <th>Action</th>
                                     </tr>
@@ -51,11 +51,14 @@
                                 <tbody>
                                     @foreach($logistics as $row)
                                     <tr class="align-middle">
+                                        <td>{{$loop->iteration}}</td>
                                         <td>
                                             @if($row->photo)
                                             <img
                                                 src="{{asset('logisticItem/'.$row->photo)}}"
                                                 alt=""
+                                                class="rounded-3"
+                                                style="height: 60px"
                                             />
                                             @else
                                             <img
@@ -63,55 +66,65 @@
                                                     asset('image/noimg.png')
                                                 }}"
                                                 alt=""
+                                                class="rounded-3"
+                                                style="height: 60px"
                                             />
                                             @endif
                                         </td>
-                                        <td>{{$row->photo}}</td>
                                         <td>{{$row->name}}</td>
-                                        <td>{{$row->price}}</td>
-                                        <td>{{$row->item_price}}</td>
+                                        <td>$ {{$row->price}}</td>
+                                        <td>$ {{$row->item_price}}</td>
                                         <td>{{$row->item_type}}</td>
                                         <td>{{$row->payment_method}}</td>
                                         <td>{{$row->from_location}}</td>
                                         <td>{{$row->to_destination}}</td>
-                                        <td>{{$row->process}}</td>
+                                        @if($row->process=='Failed')
+                                        <td class="text-danger">
+                                            {{$row->process}}
+                                        </td>
+                                        @elseif($row->process=='Delivered')
+                                        <td class="text-success">
+                                            {{$row->process}}
+                                        </td>
+                                        @else
+                                        <td class="text-warning">
+                                            {{$row->process}}
+                                        </td>
+                                        @endif
+                                        <td>
+                                            @php $date = new
+                                            DateTime($row->created_at); echo
+                                            $date->format('d-m-Y'); @endphp
+                                        </td>
                                         @if($row->status=='0')
                                         <td class="text-success">active</td>
                                         @else
                                         <td class="text-danger">inactive</td>
                                         @endif
-                                        <td class="d-flex flex-row gap-2">
+                                        <td>
                                             <button
-                                                class="btn btn-warning rounded-3"
+                                                class="btn btn-primary rounded-3"
                                                 data-bs-toggle="modal"
-                                                data-bs-target="#editModalCate-{{ $row->id }}"
+                                                data-bs-target="#showModal-{{$row->id}}"
                                             >
-                                                Edit
-                                            </button>
-                                            <button
-                                                class="btn btn-danger rounded-3"
-                                                data-bs-toggle="modal"
-                                                data-bs-target="#deleteModalCate-{{ $row->id }}"
-                                            >
-                                                Remove
+                                                Show
                                             </button>
                                         </td>
                                     </tr>
+
                                     <!-- Edit Modal -->
                                     <div
                                         class="modal fade"
-                                        id="editModalCate-{{ $row->id }}"
+                                        id="showModal-{{ $row->id }}"
                                         tabindex="-1"
                                         aria-labelledby="editModalLabel-{{ $row->id }}"
                                         aria-hidden="true"
                                     >
-                                        <div
-                                            class="modal-dialog modal-sm modal-top-center"
-                                        >
+                                        <div class="modal-dialog">
                                             <div class="modal-content">
                                                 <form
-                                                    action="{{ route('cate.updateProvince', $row->id) }}"
-                                                    method="post"
+                                                    action=""
+                                                    method="POST"
                                                     enctype="multipart/form-data"
                                                 >
                                                     @csrf @method('PUT')
@@ -120,7 +133,7 @@
                                                             class="modal-title"
                                                             id="editModalLabel-{{ $row->id }}"
                                                         >
-                                                            Edit Information
+                                                            កែប្រែព័តមាន
                                                         </h5>
                                                         <button
                                                             type="button"
@@ -133,7 +146,7 @@
                                                         <div class="mb-3">
                                                             <label
                                                                 class="form-label"
-                                                                >Name:</label
+                                                                >ផលិតផល</label
                                                             >
                                                             <input
                                                                 type="text"
@@ -143,32 +156,6 @@
                                                                 value="{{ $row->name }}"
                                                             />
                                                         </div>
-                                                        <div class="mb-3">
-                                                            <label
-                                                                class="form-label"
-                                                                >Khmer
-                                                                Name:</label
-                                                            >
-                                                            <input
-                                                                type="text"
-                                                                class="form-control"
-                                                                id="name-{{ $row->id }}"
-                                                                name="kh_name"
-                                                                value="{{ $row->kh_name }}"
-                                                            />
-                                                        </div>
-                                                        <div class="mb-3">
-                                                            <label
-                                                                class="col-form-label"
-                                                                >Code:</label
-                                                            >
-                                                            <input
-                                                                type="text"
-                                                                class="form-control"
-                                                                name="code"
-                                                                value="{{ $row->code }}"
-                                                            />
-                                                        </div>
                                                     </div>
                                                     <div class="modal-footer">
                                                         <button
@@ -176,71 +163,7 @@
                                                             class="btn btn-secondary"
                                                             data-bs-dismiss="modal"
                                                         >
-                                                            Cancel
-                                                        </button>
-                                                        <button
-                                                            type="submit"
-                                                            class="btn btn-warning"
-                                                        >
-                                                            Update
-                                                        </button>
-                                                    </div>
-                                                </form>
-                                                @if($row->status=='1')
-                                                <form action="" method="post">
-                                                    @csrf @method('PUT')
-                                                    <button
-                                                        class="btn btn-sm btn-danger rounded-3"
-                                                        type="submit"
-                                                    >
-                                                        This record was
-                                                        inactive, Wanna active?
-                                                    </button>
-                                                </form>
-                                                @endif
-                                            </div>
-                                        </div>
-                                    </div>
-                                    <!-- Delete Modal -->
-                                    <div
-                                        class="modal fade"
-                                        id="deleteModalCate-{{ $row->id }}"
-                                        tabindex="-1"
-                                        aria-labelledby="deleteModalLabel-{{ $row->id }}"
-                                        aria-hidden="true"
-                                    >
-                                        <div
-                                            class="modal-dialog modal-sm modal-top-center"
-                                        >
-                                            <div class="modal-content">
-                                                <form
-                                                    action="{{
-                                                        route(
-                                                            'cate.removeProvince', $row->id
-                                                        )
-                                                    }}"
-                                                    method="POST"
-                                                >
-                                                    @csrf @method('PUT')
-                                                    <div
-                                                        class="modal-header fs-5"
-                                                    >
-                                                        Are you sure wanna
-                                                        remove this record?
-                                                    </div>
-                                                    <div class="modal-footer">
-                                                        <button
-                                                            type="button"
-                                                            class="btn btn-secondary"
-                                                            data-bs-dismiss="modal"
-                                                        >
-                                                            Cancel
-                                                        </button>
-                                                        <button
-                                                            type="submit"
-                                                            class="btn btn-danger"
-                                                        >
-                                                            Delete Category
+                                                            Close
                                                         </button>
                                                     </div>
                                                 </form>
@@ -361,7 +284,7 @@
                                             id=""
                                             class="form-select"
                                         >
-                                            <option value="location">
+                                            <option value="local">
                                                 Pay from This
                                             </option>
                                             <option value="destination">

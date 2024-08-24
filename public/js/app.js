@@ -72,7 +72,5 @@ imgInput.addEventListener("change", function () {
 });
 
 // DATATABLES
-let province = new DataTable("#province", {
-    pageLength: 5,
-});
+let province = new DataTable("#province");
 let logistic = new DataTable("#logistic");

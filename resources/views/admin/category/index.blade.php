@@ -16,7 +16,10 @@
                 <div class="row">
                     <div class="card mb-2 shadow rounded-4">
                         <h4 class="mt-2 mb-0">Provinces</h4>
-                        <div class="card-body rounded-4 pt-0">
+                        <div
+                            class="card-body rounded-4"
+                            style="height: 300px !important; overflow-y: auto"
+                        >
                             @if(session('success'))
                             <div class="alert alert-success">
                                 {{ session("success") }}
@@ -28,7 +31,6 @@
                             @endif
                             <table
                                 class="table table-striped table-bordered shadow mt-3"
-                                id="province"
                             >
                                 <thead>
                                     <tr>

@@ -11,142 +11,193 @@ class CategoryController extends Controller
 {
     public function index()
     {
-        $province = Province::all();
-        $itemType = ItemType::all();
-        $process = LogisticProcess::all();
+        try {
+            $province = Province::all();
+            $itemType = ItemType::all();
+            $process = LogisticProcess::all();
 
-        return view(
-            'admin.category.index',
-            compact([
-                'province',
-                'itemType',
-                'process'
-            ])
-        );
+            return view(
+                'admin.category.index',
+                compact([
+                    'province',
+                    'itemType',
+                    'process'
+                ])
+            );
+        } catch (\Exception $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
     }
 
     public function storeProvince(Request $req)
     {
-        Province::create([
-            'name' => $req->name,
-            'kh_name' => $req->kh_name,
-            'code' => 'province00' . $req->code,
-            'status' => '0'
-        ]);
-
-        return redirect()->back()->with('success', 'province created');
+        try {
+            Province::create([
+                'name' => $req->name,
+                'kh_name' => $req->kh_name,
+                'code' => 'province00' . $req->code,
+                'status' => '0'
+            ]);
+            return redirect()->back()->with('success', 'province created');
+        } catch (\Exception $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
     }
     public function storeItemType(Request $req)
     {
-        ItemType::create([
-            'name' => $req->name,
-            'kh_name' => $req->kh_name,
-            'code' => 'itemType00' . $req->code,
-            'status' => '0'
-        ]);
+        try {
+            ItemType::create([
+                'name' => $req->name,
+                'kh_name' => $req->kh_name,
+                'code' => 'itemType00' . $req->code,
+                'status' => '0'
+            ]);
 
-        return redirect()->back()->with('success', 'province created');
+            return redirect()->back()->with('success', 'province created');
+        } catch (\Exception $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
     }
     public function storeProcess(Request $req)
     {
-        LogisticProcess::create([
-            'name' => $req->name,
-            'kh_name' => $req->kh_name,
-            'code' => 'process00' . $req->code,
-            'status' => '0'
-        ]);
+        try {
+            LogisticProcess::create([
+                'name' => $req->name,
+                'kh_name' => $req->kh_name,
+                'code' => 'process00' . $req->code,
+                'status' => '0'
+            ]);
 
-        return redirect()->back()->with('success', 'Process created');
+            return redirect()->back()->with('success', 'Process created');
+        } catch (\Exception $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
     }
 
 
     public function updateProvince(Request $req, string $id)
     {
-        $province = Province::findOrFail($id);
-        $province->update([
-            'name' => $req->name,
-            'kh_name' => $req->kh_name,
-            'code' => $req->code,
-        ]);
+        try {
+            $province = Province::findOrFail($id);
+            $province->update([
+                'name' => $req->name,
+                'kh_name' => $req->kh_name,
+                'code' => $req->code,
+            ]);
 
-        return redirect()->back()->with('success', 'province updated');
+            return redirect()->back()->with('success', 'province updated');
+        } catch (\Exception $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
     }
     public function updateItemType(Request $req, string $id)
     {
-        $province = ItemType::findOrFail($id);
-        $province->update([
-            'name' => $req->name,
-            'kh_name' => $req->kh_name,
-            'code' => $req->code,
-        ]);
+        try {
+            $province = ItemType::findOrFail($id);
+            $province->update([
+                'name' => $req->name,
+                'kh_name' => $req->kh_name,
+                'code' => $req->code,
+            ]);
 
-        return redirect()->back()->with('success', 'province updated');
+            return redirect()->back()->with('success', 'province updated');
+        } catch (\Exception $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
     }
     public function updateProcess(Request $req, string $id)
     {
-        $province = LogisticProcess::findOrFail($id);
-        $province->update([
-            'name' => $req->name,
-            'kh_name' => $req->kh_name,
-            'code' => $req->code,
-        ]);
+        try {
+            $province = LogisticProcess::findOrFail($id);
+            $province->update([
+                'name' => $req->name,
+                'kh_name' => $req->kh_name,
+                'code' => $req->code,
+            ]);
 
-        return redirect()->back()->with('success', 'Process updated');
+            return redirect()->back()->with('success', 'Process updated');
+        } catch (\Exception $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
     }
 
     public function removeProvince(string $id)
     {
-        $province = Province::findOrFail($id);
-        $province->update([
-            'status' => '1'
-        ]);
+        try {
+            $province = Province::findOrFail($id);
+            $province->update([
+                'status' => '1'
+            ]);
 
-        return redirect()->back()->with('error', 'province removed');
+            return redirect()->back()->with('error', 'province removed');
+        } catch (\Exception $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
     }
     public function removeItemType(string $id)
     {
-        $province = ItemType::findOrFail($id);
-        $province->update([
-            'status' => '1'
-        ]);
+        try {
+            $province = ItemType::findOrFail($id);
+            $province->update([
+                'status' => '1'
+            ]);
 
-        return redirect()->back()->with('error', 'province removed');
+            return redirect()->back()->with('error', 'province removed');
+        } catch (\Exception $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
     }
     public function removeProcess(string $id)
     {
-        $province = LogisticProcess::findOrFail($id);
-        $province->update([
-            'status' => '1'
-        ]);
+        try {
+            $province = LogisticProcess::findOrFail($id);
+            $province->update([
+                'status' => '1'
+            ]);
 
-        return redirect()->back()->with('error', 'Process removed');
+            return redirect()->back()->with('error', 'Process removed');
+        } catch (\Exception $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
     }
 
     public function activeProvince(string $id)
     {
-        $province = Province::findOrFail($id);
-        $province->update([
-            'status' => '0'
-        ]);
+        try {
+            $province = Province::findOrFail($id);
+            $province->update([
+                'status' => '0'
+            ]);
 
-        return redirect()->back()->with('success', 'Province active');
+            return redirect()->back()->with('success', 'Province active');
+        } catch (\Exception $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
     }
     public function activeItemType(string $id)
     {
-        $province = ItemType::findOrFail($id);
-        $province->update([
-            'status' => '0'
-        ]);
+        try {
+            $province = ItemType::findOrFail($id);
+            $province->update([
+                'status' => '0'
+            ]);
 
-        return redirect()->back()->with('success', 'Item Type active');
+            return redirect()->back()->with('success', 'Item Type active');
+        } catch (\Exception $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
     }
     public function activeProcess(string $id)
     {
-        $province = LogisticProcess::findOrFail($id);
-        $province->update([
-            'status' => '0'
-        ]);
+        try {
+            $province = LogisticProcess::findOrFail($id);
+            $province->update([
+                'status' => '0'
+            ]);
 
-        return redirect()->back()->with('success', 'Process active');
+            return redirect()->back()->with('success', 'Process active');
+        } catch (\Exception $e) {
+            echo 'Error: ' . $e->getMessage();
+        }
     }
 }

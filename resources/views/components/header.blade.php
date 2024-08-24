@@ -17,9 +17,9 @@
             </li>
         </ul>
         <li
-            class="d-none w-75 text-center text-decoration-none list-unstyled fs-4 d-md-block text-dark"
+            class="d-none w-75 text-center text-decoration-none list-unstyled fs-4 d-md-block text-dark fw-medium"
         >
-            Fucking Fast Logistics
+            Fucking Fast Logistics Company
         </li>
         <ul class="navbar-nav ms-auto">
             <li class="nav-item">
